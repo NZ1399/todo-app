@@ -1,5 +1,5 @@
-import MainInput from '../../../UIKit/MainInput/MainInput.jsx';
-import MainButton from '../../../UIKit/MainButton/MainButton.jsx';
+import MainInput from '../../../UIKit/MainInput/index';
+import MainButton from '../../../UIKit/MainButton/index';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { pageStyle, cardStyle, linkStyle } from '../styles.js';

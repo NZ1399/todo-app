@@ -1,8 +1,8 @@
 import { Routes, Route, Link } from 'react-router'
-import Login from './modules/Auth/ui/Login.jsx';
-import Register from './modules/Auth/ui/Register.jsx';
-import ForgotPassword from './modules/Auth/ui/ForgotPassword.jsx';
-import { navStyle, linkStyle } from './modules/Auth/styles.js';
+import Login from './modules/authentication/authorization/ui/index.jsx';
+import Register from './modules/authentication/ui/Register.jsx';
+import ForgotPassword from './modules/authentication/ui/ForgotPassword.jsx';
+import { navStyle, linkStyle } from './modules/authentication/styles.js';
 
 function App() {
   return (
