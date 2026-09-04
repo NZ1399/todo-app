@@ -1,14 +1,18 @@
 export const styles = {
   container: {
+    width: '100%',
     flexDirection: 'column' as any,
     display: 'flex',
+    alignItems: 'stretch',
     marginBottom: '10px'
   },
   label: {
     color: '#EAFBF2',
     marginBottom: '5px',
   },
-  input: {
+    input: {
+    width: '100%',
+    boxSizing: 'border-box',
     backgroundColor: '#0F1512',
     color: '#EAFBF2',
     border: '1px solid rgba(34, 197, 94, 0.35)',

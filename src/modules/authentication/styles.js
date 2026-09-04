@@ -9,6 +9,8 @@ export const pageStyle = {
 };
 
 export const cardStyle = {
+  width: '400px',
+  maxWidth: '90vw',
   backgroundColor: '#0F1512',
   border: '1px solid rgba(34, 197, 94, 0.18)',
   borderRadius: '16px',
@@ -21,6 +23,11 @@ export const cardStyle = {
 };
 
 export const navStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 10,
   display: 'flex',
   justifyContent: 'center',
   gap: '24px',

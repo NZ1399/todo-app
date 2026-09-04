@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 
-export const useLogin = () => {
+export const useForgotPassword = () => {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(true);
-    const navigate = useNavigate();
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,22 +19,18 @@ export const useLogin = () => {
     const onBlurEmail = () => {
         setIsEmailValid(validateEmail(email));
     }
-
     const handleSubmit = async () => {
         try {
             setIsLoading(true);
-            if (!validateEmail(email) || password === '') {
-                setIsEmailValid(false);
+
+            const emailValid = validateEmail(email);
+            setIsEmailValid(emailValid);
+
+            if (!emailValid) {
                 return;
             }
-            // const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ email, password }),
-            // });
-            const response = { ok: true, json: async () => ({ email, password }) }; // Mock response for demonstration
+
+            const response = { ok: true, json: async () => ({ email }) }; // Mock response for demonstration
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -45,8 +38,6 @@ export const useLogin = () => {
 
             const data = await response.json();
             console.log('Форма валідна:', data);
-            // Here you can handle the successful login, e.g., redirect to another page or store the token
-            navigate('/home');
         } catch (error) {
             console.error('Помилка при відправці форми:', error);
         } finally {
@@ -54,7 +45,7 @@ export const useLogin = () => {
         }
     }
 
-    const disabled = isLoading || !isEmailValid || !validateEmail(email) || password === '';
+    const disabled = isLoading || !isEmailValid || email === '';
 
-    return { email, onBlurEmail, password, setPassword, handleSubmit, isEmailValid, handleEmailChange, disabled, isLoading };
+    return { email, handleEmailChange, onBlurEmail, isEmailValid, handleSubmit, disabled, isLoading };
 }
