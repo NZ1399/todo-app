@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export const useRegister = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -65,6 +67,8 @@ export const useRegister = () => {
 
             const data = await response.json();
             console.log('Форма валідна:', data);
+            localStorage.setItem('user', JSON.stringify({ email: data.email }));
+            navigate('/home');
         } catch (error) {
             console.error('Помилка при відправці форми:', error);
         } finally {
