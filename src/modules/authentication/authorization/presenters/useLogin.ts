@@ -45,6 +45,7 @@ export const useLogin = () => {
 
             const data = await response.json();
             console.log('Форма валідна:', data);
+            localStorage.setItem('user', JSON.stringify({ email: data.email }));
             // Here you can handle the successful login, e.g., redirect to another page or store the token
             navigate('/home');
         } catch (error) {
