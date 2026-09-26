@@ -9,12 +9,7 @@ export const subtitle = {
   fontSize: '14px',
   color: '#93A69A',
   margin: '0 0 24px',
-};
-
-export const forgotRow = {
-  textAlign: 'right' as const,
-  marginBottom: '20px',
-  marginTop: '-8px',
+  lineHeight: 1.5,
 };
 
 export const link = {
