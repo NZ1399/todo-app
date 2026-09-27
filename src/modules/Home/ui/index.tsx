@@ -1,5 +1,6 @@
 import * as styles from './styles.js';
 import { useHome } from '../presenters/useHome.ts';
+import { useTasks } from '../presenters/useTasks.ts';
 
 const addIcon = (
   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -24,6 +25,7 @@ const checkIcon = (
 
 function Home({ user }: { user: string }) {
   const { userData, handleLogout } = useHome(user);
+  const { tasks, newTaskText, setNewTaskText, addTask, toggleTask, deleteTask, totalCount, doneCount, inProgressCount } = useTasks();
 
   return (
     <div style={styles.page as React.CSSProperties}>
@@ -51,63 +53,74 @@ function Home({ user }: { user: string }) {
 
       <div style={styles.content as React.CSSProperties}>
         <h1 style={styles.greeting as React.CSSProperties}>Привіт, {userData.email.split('@')[0]}!</h1>
-        <p style={styles.greetingSubtitle as React.CSSProperties}>У тебе сьогодні 5 активних завдань. Гарного темпу.</p>
+        <p style={styles.greetingSubtitle as React.CSSProperties}>У тебе {inProgressCount} активних завдань. Гарного темпу.</p>
 
         <div style={styles.statsRow as React.CSSProperties}>
           <div style={styles.statCard as React.CSSProperties}>
             <div style={styles.statCardTop as React.CSSProperties}>
               <span style={styles.statLabel as React.CSSProperties}>Всього завдань</span>
             </div>
-            <div style={styles.statValue as React.CSSProperties}>12</div>
+            <div style={styles.statValue as React.CSSProperties}>{totalCount}</div>
           </div>
           <div style={styles.statCard as React.CSSProperties}>
             <div style={styles.statCardTop as React.CSSProperties}>
               <span style={styles.statLabel as React.CSSProperties}>Виконано</span>
             </div>
-            <div style={styles.statValueAccent as React.CSSProperties}>7</div>
+            <div style={styles.statValueAccent as React.CSSProperties}>{doneCount}</div>
           </div>
           <div style={styles.statCard as React.CSSProperties}>
             <div style={styles.statCardTop as React.CSSProperties}>
               <span style={styles.statLabel as React.CSSProperties}>У процесі</span>
             </div>
-            <div style={styles.statValue as React.CSSProperties}>5</div>
+            <div style={styles.statValue as React.CSSProperties}>{inProgressCount}</div>
           </div>
         </div>
 
         <div style={styles.quickAddRow as React.CSSProperties}>
           <div style={styles.quickAddInputWrapper as React.CSSProperties}>
             <span style={styles.quickAddIcon as React.CSSProperties}>{addIcon}</span>
-            <input style={styles.quickAddInput as React.CSSProperties} placeholder="Додати нове завдання..." />
+            <input
+              style={styles.quickAddInput as React.CSSProperties}
+              placeholder="Додати нове завдання..."
+              value={newTaskText}
+              onChange={(e) => setNewTaskText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') addTask();
+              }}
+            />
           </div>
-          <button style={styles.quickAddButton as React.CSSProperties}>Додати</button>
+          <button style={styles.quickAddButton as React.CSSProperties} onClick={addTask}>Додати</button>
         </div>
 
         <div style={styles.taskListCard as React.CSSProperties}>
           <div style={styles.taskListHeader as React.CSSProperties}>
-            <h3 style={styles.taskListTitle as React.CSSProperties}>Сьогодні</h3>
-            <span style={styles.taskCountBadge as React.CSSProperties}>3 завдання</span>
+            <h3 style={styles.taskListTitle as React.CSSProperties}>Мої завдання</h3>
+            <span style={styles.taskCountBadge as React.CSSProperties}>{totalCount} завдань</span>
           </div>
 
-          <div style={styles.taskRow as React.CSSProperties}>
-            <div style={styles.checkboxDone as React.CSSProperties}>{checkIcon}</div>
-            <span style={styles.taskTextDone as React.CSSProperties}>Підготувати презентацію для клієнта</span>
-            <span style={styles.taskTag('#3DDC84', 'rgba(61,220,132,0.12)') as React.CSSProperties}>Робота</span>
-            <span style={styles.taskTime as React.CSSProperties}>10:00</span>
-          </div>
+          {tasks.length === 0 && (
+            <div style={{ padding: '30px 20px', textAlign: 'center', color: '#5B6A62', fontSize: '14px' }}>
+              Завдань поки немає — додай перше вище
+            </div>
+          )}
 
-          <div style={styles.taskRow as React.CSSProperties}>
-            <div style={styles.checkboxEmpty as React.CSSProperties}></div>
-            <span style={styles.taskText as React.CSSProperties}>Зустріч з командою розробки</span>
-            <span style={styles.taskTag('#7EA8FF', 'rgba(93,151,255,0.14)') as React.CSSProperties}>Мітинг</span>
-            <span style={styles.taskTime as React.CSSProperties}>14:30</span>
-          </div>
-
-          <div style={styles.taskRowLast as React.CSSProperties}>
-            <div style={styles.checkboxEmpty as React.CSSProperties}></div>
-            <span style={styles.taskText as React.CSSProperties}>Оновити дизайн профілю користувача</span>
-            <span style={styles.taskTag('#FFB74D', 'rgba(255,183,77,0.14)') as React.CSSProperties}>Дизайн</span>
-            <span style={styles.taskTime as React.CSSProperties}>18:00</span>
-          </div>
+          {tasks.map((task) => (
+            <div key={task.id} style={styles.taskRow as React.CSSProperties}>
+              <div
+                onClick={() => toggleTask(task.id)}
+                style={(task.done ? styles.checkboxDone : styles.checkboxEmpty) as React.CSSProperties}
+              >
+                {task.done && checkIcon}
+              </div>
+              <span style={(task.done ? styles.taskTextDone : styles.taskText) as React.CSSProperties}>{task.text}</span>
+              <button
+                onClick={() => deleteTask(task.id)}
+                style={{ background: 'none', border: 'none', color: '#5B6A62', cursor: 'pointer', fontSize: '13px' }}
+              >
+                Видалити
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

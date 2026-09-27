@@ -1,3 +1,4 @@
+
 export const useHome = (user: string) => {
   const userData = JSON.parse(user);
 
