@@ -11,15 +11,6 @@ import Home from './modules/Home/ui/index.jsx';
 
   return (
     <div>
-          {isAuthPage && (
-      <nav style={navStyle}>
-        <Link to="/login" style={linkStyle}>Вхід</Link>
-        {' | '}
-        <Link to="/register" style={linkStyle}>Реєстрація</Link>
-         {' | '}
-         <Link to="/forgot-password" style={linkStyle}>Забули пароль?</Link>
-      </nav>
-          )}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />

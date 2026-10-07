@@ -11,12 +11,6 @@ export const subtitle = {
   margin: '0 0 24px',
 };
 
-export const forgotRow = {
-  textAlign: 'right' as const,
-  marginBottom: '20px',
-  marginTop: '-8px',
-};
-
 export const link = {
   color: '#3DDC84',
   fontSize: '13px',
@@ -28,4 +22,16 @@ export const bottomText = {
   marginTop: '20px',
   fontSize: '13px',
   color: '#93A69A',
+};
+
+export const passwordHint = {
+  color: '#93A69A',
+  fontSize: '12px',
+  margin: '-8px 0 12px',
+};
+
+export const passwordError = {
+  color: '#FF6B6B',
+  fontSize: '12px',
+  margin: '-8px 0 12px',
 };
